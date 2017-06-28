@@ -35,7 +35,6 @@ def login():
    reqlogin = s.post(url=url,data=submit_data, headers=headers,timeout=10)
    jslogin = json.loads(reqlogin.text)
    resultCode=jslogin['retcode']
-
    if resultCode == 20000000:
     print('恭喜，登陆成功!')
     data=jslogin['data']
@@ -46,12 +45,10 @@ def login():
    elif resultCode ==50011015:
     print('用户名不存在')
    else:
-    print('系统错误')
-        
+    print('系统错误')        
   except Exception as e:
      print(e)
       
-
 def idlist(uid):
   url2='https://weibo.cn/'+uid+'/profile'+'?page=1'
   req2=s.get(url=url2,headers=headers,timeout=10).content
@@ -73,8 +70,7 @@ def idlist(uid):
       length=len(js2["cards"])  
       print('正在获取第'+str(num)+'页的微博id','本页有微博'+str(length)+'条')
       for num1 in range(0,length):
-          idlist2.append(js2["cards"][num1]["mblog"]["bid"])
-          
+          idlist2.append(js2["cards"][num1]["mblog"]["bid"])     
   print('微博获取完毕')
   return idlist2
 
