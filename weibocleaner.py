@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 import requests
 import json
@@ -55,7 +56,7 @@ def idlist(uid):
   url2='https://weibo.cn/'+uid+'/profile'+'?page=1'
   req2=s.get(url=url2,headers=headers,timeout=10).content
   soup=BeautifulSoup(req2, "lxml")
- #获取博文总页数
+  #获取博文总页数
   soup1=soup.find_all('input',{'name':'mp'})
   value=int(soup1[0].attrs['value'])
   soup9=soup.find_all('form',{'method':'post'})
@@ -84,8 +85,7 @@ def dellist(idlist):
    url1='https://weibo.cn/mblog/del?type=del&id='+idid+'&act=delc&rl=1&st='+st
    req4=s.get(url=url1,headers=headers,timeout=20)
 
-
-
+if __name__ == '__main__':
 uid=login()
 idlist=idlist(uid)
 dellist(idlist)
