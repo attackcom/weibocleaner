@@ -51,8 +51,6 @@ def login():
      print(e)
       
 
-
-
 def idlist(uid):
   url2='https://weibo.cn/'+uid+'/profile'+'?page=1'
   req2=s.get(url=url2,headers=headers,timeout=10).content
@@ -77,16 +75,14 @@ def idlist(uid):
           idlist2.append(js2["cards"][num1]["mblog"]["bid"])
           
   print('微博获取完毕')
-
   return idlist2
 
 def dellist(idlist):
  for idid in idlist:
-   timea=random.uniform(3,8)
+   timea=random.uniform(2,5)
    time.sleep(timea)
    url1='https://weibo.cn/mblog/del?type=del&id='+idid+'&act=delc&rl=1&st='+st
    req4=s.get(url=url1,headers=headers,timeout=20)
-
 
 
 
