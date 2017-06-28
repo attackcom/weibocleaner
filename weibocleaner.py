@@ -30,7 +30,6 @@ def login():
                  'pagerefer':'','entry':'mweibo','wentry':'','loginfrom':'','client_id':'',
                  'code':'','qq':'','mainpageflag':'1','hff':'','hfp':'',
                  }
-
   #模拟登陆
    reqlogin = s.post(url=url,data=submit_data, headers=headers,timeout=10)
    jslogin = json.loads(reqlogin.text)
@@ -50,20 +49,21 @@ def login():
      print(e)
       
 def idlist(uid):
-  url2='https://weibo.cn/'+uid+'/profile'+'?page=1'
-  req2=s.get(url=url2,headers=headers,timeout=10).content
-  soup=BeautifulSoup(req2, "lxml")
-  #获取博文总页数
-  soup1=soup.find_all('input',{'name':'mp'})
-  value=int(soup1[0].attrs['value'])
-  soup9=soup.find_all('form',{'method':'post'})
-  #获得st值
-  sturl=soup9[0].attrs['action']
-  global st
-  st=sturl.split('=')[1]
-  containerid = '107603'+uid
-  idlist2=[]
-  for num in range(1,value+1):
+  try:   
+   url2='https://weibo.cn/'+uid+'/profile'+'?page=1'
+   req2=s.get(url=url2,headers=headers,timeout=10).content
+   soup=BeautifulSoup(req2, "lxml")
+   #获取博文总页数
+   soup1=soup.find_all('input',{'name':'mp'})
+   value=int(soup1[0].attrs['value'])
+   soup9=soup.find_all('form',{'method':'post'})
+   #获得st值
+   sturl=soup9[0].attrs['action']
+   global st
+   st=sturl.split('=')[1]
+   containerid = '107603'+uid
+   idlist2=[]
+   for num in range(1,value+1):
       idurl='https://m.weibo.cn/api/container/getIndex?type=uid&value='+uid+'&containerid='+containerid+'&page='+str(num)
       req3=s1.get(url=idurl,headers=headers,timeout=20)    
       js2 = json.loads(req3.content)
@@ -71,8 +71,10 @@ def idlist(uid):
       print('正在获取第'+str(num)+'页的微博id','本页有微博'+str(length)+'条')
       for num1 in range(0,length):
           idlist2.append(js2["cards"][num1]["mblog"]["bid"])     
-  print('微博获取完毕')
-  return idlist2
+   print('微博获取完毕')
+   return idlist2
+  except Exception as e:
+     print(e)
 
 def dellist(idlist):
  for idid in idlist:
@@ -82,7 +84,7 @@ def dellist(idlist):
    req4=s.get(url=url1,headers=headers,timeout=20)
 
 if __name__ == '__main__':
-uid=login()
-idlist=idlist(uid)
-dellist(idlist)
+ uid=login()
+ idlist=idlist(uid)
+ dellist(idlist)
 
